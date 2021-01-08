@@ -5,6 +5,8 @@
  */
 package Apps;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,6 +20,12 @@ public class MovieReviews extends javax.swing.JFrame {
     private int MovieID = 0;
     private String MovieName = "";
     private String Username = "";
+    private float MovieRating = 0;
+    
+    private void Center() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+    }
     
     private MovieReviews() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -52,6 +60,38 @@ public class MovieReviews extends javax.swing.JFrame {
         }
     }
     
+    private void getRating(int MovieID) {
+        float AverageRating = 0;
+        int RatingCount = 0;
+        String RatingTxt = "Average Rating: ";
+        try {
+            String SelStm = "SELECT * FROM rating";
+            java.sql.Connection conn = Config.ConfigDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet res = stm.executeQuery(SelStm);
+            System.out.println(UserID);
+            System.out.println(MovieID);
+
+            while(res.next()) {
+                if(MovieID == res.getInt(2)) {
+                    System.out.println(res.getFloat(5));
+                    RatingCount++;
+                    AverageRating += res.getFloat(5);
+                }
+            }
+            
+            if(RatingCount >= 0) {
+                AverageRating = AverageRating/RatingCount;
+                RatingTxt += AverageRating;
+                this.MovieRating = AverageRating;
+            }
+            
+            AvgRating.setText(RatingTxt);
+            this.MovieRating = AverageRating;
+        } catch(SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
     /**
      * Creates new form Movie List
      */
@@ -62,6 +102,7 @@ public class MovieReviews extends javax.swing.JFrame {
         this.UserID = UserID;
         initComponents();
         tableData(this.MovieName);
+        Center();
         
         try {
             String SelStm = "SELECT * FROM rating";
@@ -83,6 +124,7 @@ public class MovieReviews extends javax.swing.JFrame {
                 }
             }
             
+            getRating(this.MovieID);
         } catch(SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -99,6 +141,7 @@ public class MovieReviews extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
@@ -118,6 +161,16 @@ public class MovieReviews extends javax.swing.JFrame {
         jPanel2.setMinimumSize(new java.awt.Dimension(682, 880));
         jPanel2.setPreferredSize(new java.awt.Dimension(682, 880));
         jPanel2.setLayout(null);
+
+        jButton3.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
+        jButton3.setText("Back to Movie List");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton3);
+        jButton3.setBounds(451, 321, 220, 40);
 
         jLabel1.setFont(new java.awt.Font("Impact", 0, 48)); // NOI18N
         jLabel1.setText("Rating");
@@ -143,7 +196,7 @@ public class MovieReviews extends javax.swing.JFrame {
         AvgRating.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         AvgRating.setText("Average Rating:");
         jPanel2.add(AvgRating);
-        AvgRating.setBounds(420, 30, 230, 29);
+        AvgRating.setBounds(380, 30, 270, 29);
 
         jLabel3.setFont(new java.awt.Font("Impact", 0, 48)); // NOI18N
         jLabel3.setText("Your Review");
@@ -213,10 +266,23 @@ public class MovieReviews extends javax.swing.JFrame {
                 pstm.execute();
             }
             
+            getRating(this.MovieID);
+            
+            String MovieUpdStm = "UPDATE movie SET RatingAvg='" + this.MovieRating +"' WHERE MovieID= '" + this.MovieID +"';";
+            java.sql.PreparedStatement pstm = conn.prepareStatement(MovieUpdStm);
+            pstm.execute();
+            
         } catch(SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        MovieList ML = new MovieList(this.Username, this.UserID);
+        this.setVisible(false);
+        ML.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,6 +331,7 @@ public class MovieReviews extends javax.swing.JFrame {
     private javax.swing.JTextPane ReviewField;
     private javax.swing.JTable Table;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

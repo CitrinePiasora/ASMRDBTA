@@ -5,6 +5,8 @@
  */
 package Apps;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,7 +18,12 @@ public class MovieList extends javax.swing.JFrame {
     
     private String User = "";
     private int UserID = 0;
-
+    
+    private void Center() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+    }
+    
     private MovieList() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -51,6 +58,7 @@ public class MovieList extends javax.swing.JFrame {
     public MovieList(String Userdata, int UserID) {
         initComponents();
         tableData();
+        Center();
         this.User = Userdata;
         this.UserID = UserID;
     }
