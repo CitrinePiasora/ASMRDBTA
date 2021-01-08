@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2021 at 03:35 PM
+-- Generation Time: Jan 08, 2021 at 12:01 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.33
 
@@ -39,8 +39,8 @@ CREATE TABLE `movie` (
 
 INSERT INTO `movie` (`MovieID`, `MovieName`, `RatingAvg`) VALUES
 (1, 'The Marvelous Misadventures of Mika', '4.5'),
-(2, 'Gadtardi\'s Wooly World', '4.0'),
-(3, 'Freaky Stanlly', '3.9');
+(2, 'Gadtardi\'s Wooly World', '3.9'),
+(3, 'Freaky Stanlly', '0.0');
 
 -- --------------------------------------------------------
 
@@ -61,8 +61,9 @@ CREATE TABLE `rating` (
 --
 
 INSERT INTO `rating` (`RatingID`, `MovieID`, `UserID`, `Comment`, `RatingScore`) VALUES
-(1, 1, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies nulla at quam egestas sollicitudin. Suspendisse potenti. Maecenas quis porttitor mauris. In hac habitasse platea dictumst. Phasellus faucibus vitae nulla nec malesuada.', '5.0'),
-(2, 1, 4, 'In massa augue, gravida a nisl ut, sodales consectetur augue. Donec mattis pellentesque eros eget egestas. Aenean volutpat ullamcorper ligula, ut iaculis erat ultrices vitae.', '4.4');
+(1, 1, 2, 'sadadsa', '4.5'),
+(2, 1, 4, 'In massa augue, gravida a nisl ut, sodales consectetur augue. Donec mattis pellentesque eros eget egestas. Aenean volutpat ullamcorper ligula, ut iaculis erat ultrices vitae.', '4.4'),
+(3, 2, 2, '', '5.0');
 
 -- --------------------------------------------------------
 
@@ -129,7 +130,7 @@ ALTER TABLE `movie`
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `RatingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `RatingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user`
