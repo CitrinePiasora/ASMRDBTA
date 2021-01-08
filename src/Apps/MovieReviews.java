@@ -253,7 +253,7 @@ public class MovieReviews extends javax.swing.JFrame {
 
             while(res.next()) {
                 if(res.getInt(3) == this.UserID && res.getInt(2) == this.MovieID) {
-                    String UpdateStm = "UPDATE rating SET Comment='" + ReviewField.getText() + "', RatingScore='" + jComboBox1.getSelectedItem().toString() + "' WHERE UserID='" + this.UserID + "';";
+                    String UpdateStm = "UPDATE rating SET Comment='" + ReviewField.getText() + "', RatingScore='" + jComboBox1.getSelectedItem().toString() + "' WHERE UserID='" + this.UserID + "' AND MovieID='" + this.MovieID + "';";
                     java.sql.PreparedStatement pstm = conn.prepareStatement(UpdateStm);
                     pstm.execute();
                     ReviewExists = true;
